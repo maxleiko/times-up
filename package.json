@@ -1,6 +1,6 @@
 {
   "name": "times-up",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Wrap asynchronous callbacks with a timeout checker to prevent them from hanging indefinitely",
   "main": "times-up.js",
   "scripts": {
