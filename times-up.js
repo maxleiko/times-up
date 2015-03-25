@@ -35,9 +35,7 @@ function timesUp(name, timeout, callback) {
     return function () {
         if (!timedOut) {
             clearTimeout(id);
-            var args = Array.prototype.slice.call(arguments);
-            args.unshift(null);
-            callback.apply(callback, args);
+            callback.apply(callback, arguments);
         }
     };
 }

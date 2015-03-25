@@ -22,7 +22,7 @@ describe('timesUp test', function () {
         function foo(cb) { setTimeout(cb, 500); }
 
         foo(timesUp(1000, function (err) {
-            expect(err).to.be.a('null');
+            expect(err).to.be.equal(undefined);
             done();
         }));
     });
@@ -40,31 +40,32 @@ describe('timesUp test', function () {
         }));
     });
 
-    it('should throw "Method foo() timed out (10000ms)" error', function (done) {
-        this.timeout(12000);
-
-        function foo(cb) { setTimeout(cb, 11000); }
-
-        foo(timesUp('foo()', function (err) {
-            expect(err).to.not.be.a('null');
-            expect(err).to.not.be.a('undefined');
-            expect(err.message).to.equal('Method foo() timed out (10000ms)');
-            done();
-        }));
-    });
-
     it('should not throw an err and give params back in callback', function (done) {
         var foo = 'foo',
             fortytwo = 42,
             obj = {bar: new Date()};
 
-        function bar(cb) { cb(foo, fortytwo, obj); }
+        function bar(cb) { cb(null, foo, fortytwo, obj); }
 
         bar(timesUp(function (err, one, two, three) {
-            expect(err).to.be.a('null');
+            expect(err).to.be.equal(null);
             expect(one).to.equal(foo);
             expect(two).to.equal(fortytwo);
             expect(three).to.equal(obj);
+            done();
+        }));
+    });
+
+    it('should throw an error because the inner function failed', function (done) {
+        this.timeout(3000);
+
+        function foo(cb) {
+            cb(new Error('Something went wrong there'));
+        }
+
+        foo(timesUp('foo()', function (err) {
+            expect(err).to.not.be.a('null');
+            expect(err.message).to.be.equal('Something went wrong there');
             done();
         }));
     });

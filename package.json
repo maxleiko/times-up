@@ -25,5 +25,6 @@
   "homepage": "https://github.com/maxleiko/times-up",
   "devDependencies": {
     "chai": "^1.9.1"
-  }
+  },
+  "dependencies": {}
 }
