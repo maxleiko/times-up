@@ -10,15 +10,15 @@ var timesUp = require('times-up');
 function asyncFunc(callback) {
   setTimeout(function () {
   	console.log('Some process in the future.');
-  	callback('done');
+  	callback(null, 'done', 42);
   }, 2000);
 }
 
-asyncFunc(timesUp('asyncFunc', 1000, function (err, res) {
+asyncFunc(timesUp('asyncFunc', 1000, function (err, res0, res1) {
   if (err) {
   	throw err;
   } else {
-  	console.log('Res: '+res);
+  	console.log('Res: '+res0+', '+res1);
   }
 }));
 ```
